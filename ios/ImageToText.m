@@ -2,7 +2,7 @@
 
 @interface RCT_EXTERN_MODULE(ImageToText, NSObject)
 
-RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
+RCT_EXTERN_METHOD(imageToText:(NSString)path
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 

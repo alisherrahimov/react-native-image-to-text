@@ -1,15 +1,19 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-image-to-text';
+import { imageToText } from 'react-native-image-to-text';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    imageToText("").then((val)=>{
+      // content://com.android.providers.downloads.documents/document/msf%3A1000000018
+      console.log(val)
+    }).catch((err)=>{
+      console.error(err)
+    })
   }, []);
-
   return (
     <View style={styles.container}>
       <Text>Result: {result}</Text>

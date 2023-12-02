@@ -49,6 +49,7 @@ target 'ImageToTextExample' do
     inherit! :complete
     # Pods for testing
   end
+  pod 'GoogleMLKit/TextRecognition', '3.2.0'
 
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202

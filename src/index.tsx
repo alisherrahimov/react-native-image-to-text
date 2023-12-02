@@ -17,6 +17,6 @@ const ImageToText = NativeModules.ImageToText
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return ImageToText.multiply(a, b);
+export function imageToText(path:string): Promise<string> {
+  return ImageToText.imageToText(path);
 }
