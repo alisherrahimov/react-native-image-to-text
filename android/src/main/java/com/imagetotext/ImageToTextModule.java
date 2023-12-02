@@ -1,7 +1,5 @@
 package com.imagetotext;
 
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -26,8 +24,7 @@ import java.io.IOException;
 @ReactModule(name = ImageToTextModule.NAME)
 public class ImageToTextModule extends ReactContextBaseJavaModule {
   public static final String NAME = "ImageToText";
-  TextRecognizer recognizer =
-    TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+  TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
   public ImageToTextModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -46,31 +43,45 @@ public class ImageToTextModule extends ReactContextBaseJavaModule {
   public void imageToText(String path, Promise promise) {
     WritableMap map = new WritableNativeMap();
     try {
-      recognizer.process(InputImage.fromFilePath(getReactApplicationContext(), Uri.parse("file://" + path)))
-        .addOnSuccessListener(new OnSuccessListener<Text>() {
-          @Override
-          public void onSuccess(Text visionText) {
-            StringBuilder news = new StringBuilder();
-
-            for (Text.TextBlock block : visionText.getTextBlocks()) {
-              Rect boundingBox = block.getBoundingBox();
-              Point[] cornerPoints = block.getCornerPoints();
-              String text = block.getText();
-              news.append(text).append("\n");
+      recognizer.process(InputImage.fromFilePath(getReactApplicationContext(), Uri.parse(path))).addOnSuccessListener(new OnSuccessListener<Text>() {
+        @Override
+        public void onSuccess(Text visionText) {
+          StringBuilder sBlockText = new StringBuilder();
+          StringBuilder sLineText = new StringBuilder();
+          StringBuilder sElementText = new StringBuilder();
+          StringBuilder sSymboleText = new StringBuilder();
+          for (Text.TextBlock block : visionText.getTextBlocks()) {
+            String blockText = block.getText();
+            sBlockText.append(blockText).append("\n");
+            for (Text.Line line : block.getLines()) {
+              String lineText = line.getText();
+              sLineText.append(lineText).append("\n");
+              for (Text.Element element : line.getElements()) {
+                String elementText = element.getText();
+                sElementText.append(elementText).append("\n");
+                for (Text.Symbol symbol : element.getSymbols()) {
+                  String symbolText = symbol.getText();
+                  sSymboleText.append(symbolText).append("\n");
+                }
+              }
             }
-            map.putString("data", news.toString());
-            promise.resolve(map);
           }
-        })
-        .addOnFailureListener(
-          new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-              // Task failed with an exception
-              // ...
-              promise.reject("I do not read this image!");
-            }
-          });
+
+          map.putString("blockText", sBlockText.toString());
+          map.putString("lineText", sLineText.toString());
+          map.putString("elementText", sElementText.toString());
+          map.putString("symboleText", sSymboleText.toString());
+
+          promise.resolve(map);
+        }
+      }).addOnFailureListener(new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+          // Task failed with an exception
+          // ...
+          promise.reject("I do not read this image!");
+        }
+      });
     } catch (IOException e) {
       promise.reject(e);
       e.printStackTrace();

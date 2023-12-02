@@ -11,11 +11,17 @@ npm install react-native-image-to-text
 ## Usage
 
 ```js
-import { multiply } from 'react-native-image-to-text';
+import { imageToText } from 'react-native-image-to-text';
 
 // ...
 
-const result = await multiply(3, 7);
+try {
+  const data = await imageToText(
+    Platform.OS === 'ios' ? path : 'file://' + path
+  );
+} catch (error) {
+  // throw error
+}
 ```
 
 ## Contributing
