@@ -1,11 +1,13 @@
 # react-native-image-to-text
 
-image to text
+With this package you can read the text in the picture.
+Support ANDROID & IOS
 
 ## Installation
 
 ```sh
 npm install react-native-image-to-text
+yarn add react-native-image-to-text
 ```
 
 ## Usage
@@ -35,3 +37,9 @@ MIT
 ---
 
 Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
+
+___
+
+Donations
+
+https://www.buymeacoffee.com/alilion

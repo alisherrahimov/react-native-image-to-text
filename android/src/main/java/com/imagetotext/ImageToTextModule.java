@@ -52,16 +52,16 @@ public class ImageToTextModule extends ReactContextBaseJavaModule {
           StringBuilder sSymboleText = new StringBuilder();
           for (Text.TextBlock block : visionText.getTextBlocks()) {
             String blockText = block.getText();
-            sBlockText.append(blockText).append("\n");
+            sBlockText.append(blockText);
             for (Text.Line line : block.getLines()) {
               String lineText = line.getText();
-              sLineText.append(lineText).append("\n");
+              sLineText.append(lineText);
               for (Text.Element element : line.getElements()) {
                 String elementText = element.getText();
-                sElementText.append(elementText).append("\n");
+                sElementText.append(elementText);
                 for (Text.Symbol symbol : element.getSymbols()) {
                   String symbolText = symbol.getText();
-                  sSymboleText.append(symbolText).append("\n");
+                  sSymboleText.append(symbolText);
                 }
               }
             }
@@ -71,7 +71,6 @@ public class ImageToTextModule extends ReactContextBaseJavaModule {
           map.putString("lineText", sLineText.toString());
           map.putString("elementText", sElementText.toString());
           map.putString("symboleText", sSymboleText.toString());
-
           promise.resolve(map);
         }
       }).addOnFailureListener(new OnFailureListener() {

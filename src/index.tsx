@@ -17,6 +17,13 @@ const ImageToText = NativeModules.ImageToText
       }
     );
 
-export function imageToText(path:string): Promise<string> {
+interface ImageToTextProps {
+  blockText?: string;
+  lineText?: string;
+  elementText?: string;
+  symboleText?: string;
+}
+
+export function imageToText(path: string): Promise<ImageToTextProps> {
   return ImageToText.imageToText(path);
 }
