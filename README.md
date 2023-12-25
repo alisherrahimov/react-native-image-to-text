@@ -14,6 +14,9 @@ yarn add react-native-image-to-text
 ```
 IOS //
 pod install
+
+
+
 ANDROID //
 nothing
 ```
