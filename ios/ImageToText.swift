@@ -9,7 +9,10 @@ class ImageToText: NSObject {
 
     @objc(imageToText:withResolver:withRejecter:)
     func imageToText(path: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        var res = ""
+        var blockText = ""
+        var lineText = ""
+        var elementText = ""
+        var symboleText = ""
         let image = UIImage(named: path)
         let visionImage = VisionImage(image: image!)
         latinTextRecognizer.process(visionImage) { text, error in
@@ -18,16 +21,16 @@ class ImageToText: NSObject {
                 print("Text recognizer failed with error: \(String(describing: errorString))")
                 return
             }
-            // Blocks.
             for block in text.blocks {
-                // Lines.
+                blockText+=block.text
                 for line in block.lines {
-                    // This is your result
-                    print(block.text, line.text)
-                    res += block.text
+                    lineText+=line.text
+                    for element in line.elements {
+                        elementText+=element.text
+                    }
                 }
             }
         }
-        resolve(res)
+        resolve(["blockText": blockText, "lineText": lineText, "elementText": elementText, "symboleText": symboleText])
     }
 }
